@@ -1,0 +1,117 @@
+.key {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 4px;
+    margin-right: 3px;
+    margin-bottom: 6px;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+    background: #C4C4C4;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+    color: #000000;
+}
+
+.backspace {
+    width: 109px;
+}
+
+.tab {
+    width: 83px;
+}
+
+.caps-lock {
+    width: 102px;
+}
+
+.backslash {
+    width: 81px;
+}
+
+.enter {
+    width: 120px;
+}
+
+.left-shift {
+    width: 129px;
+}
+
+.right-shift {
+    width: 151px;
+}
+
+.left-ctrl {
+    width: 66px;
+}
+
+.f1 {
+    margin-left: 58px;
+}
+
+.f5,
+.f9 {
+    margin-left: 27px;
+}
+
+.sys {
+    width: 66px;
+}
+
+.left-alt {
+    width: 66px;
+}
+
+.space {
+    width: 380px;
+}
+
+.right-alt {
+    width: 66px;
+}
+
+.right-ctrl {
+    width: 66px;
+}
+
+.margin-s {
+    margin-left: 14px;
+}
+
+.arrowup {
+    margin-left: 72px;
+}
+
+.numpad0 {
+    width: 113px;
+}
+
+.numpad1 {
+    margin-left: 72px;
+}
+
+.numpad4 {
+    margin-left: 202px;
+}
+
+.numpadadd {
+    height: 116px;
+}
+
+.numpadenter {
+    height: 116px;
+}
+
+.key:hover {
+    background-color: #ccc;
+}
+
+.key.active {
+    background-color: #999;
+}
