@@ -134,7 +134,6 @@ const Keyboard = () => {
             if (event.code !== prevKeyRef.current) {
                 setActiveKey([...activeKey, event.code]);
                 prevKeyRef.current = event.code
-                console.log(event.code)
             }
         };
 
