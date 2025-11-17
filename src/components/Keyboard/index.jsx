@@ -134,8 +134,11 @@ const Keyboard = () => {
 
         const shouldPrevent = (e, code) => {
             if (!code) return false;
-            // prevent common browser shortcuts: Ctrl/Meta combos, F1-F12, and navigation keys
+            // prevent modifier combos that commonly conflict (Ctrl/Meta)
             if (e.ctrlKey || e.metaKey) return true;
+            // also prevent Alt alone or Alt+Shift combos that trigger browser/menu behavior
+            if (e.altKey && !e.ctrlKey && !e.metaKey) return true;
+            // function keys
             if (/^F\d+$/.test(code)) return true;
             const preventList = new Set([
                 'Space','Tab','PrintScreen','Backspace','Delete',
