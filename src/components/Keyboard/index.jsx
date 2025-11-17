@@ -18,12 +18,12 @@ const keyListRow1 = [
     { keyName: 'F10', keyValue: 'F10' },
     { keyName: 'F11', keyValue: 'F11' },
     { keyName: 'F12', keyValue: 'F12' },
-    { keyName: 'PRTSC', keyValue: '', keyClassName: 'margin-s' },
+    { keyName: 'PRTSC', keyValue: 'PrintScreen', keyClassName: 'margin-s' },
     { keyName: 'LOCK', keyValue: 'ScrollLock' },
     { keyName: 'PAUSE', keyValue: 'Pause' }
 ]
 const keyListRow2 = [
-    { keyName: '`', keyValue: 'Backquote1' },
+    { keyName: '`', keyValue: 'Backquote' },
     { keyName: '1', keyValue: 'Digit1' },
     { keyName: '2', keyValue: 'Digit2' },
     { keyName: '3', keyValue: 'Digit3' },
@@ -109,7 +109,7 @@ const keyListRow6 = [
     { keyName: 'Space', keyValue: 'Space', keyClassName: 'space' },
     { keyName: 'Alt', keyValue: 'AltRight', keyClassName: 'right-alt' },
     { keyName: 'Sys', keyValue: 'MetaRight', keyClassName: 'sys' },
-    { keyName: 'Menu', keyValue: 'MetaRight', keyClassName: 'left-alt' },
+    { keyName: 'Menu', keyValue: 'ContextMenu', keyClassName: 'left-alt' },
     { keyName: 'Ctrl', keyValue: 'ControlRight', keyClassName: 'right-ctrl' },
     { keyName: '←', keyValue: 'ArrowLeft', keyClassName: 'margin-s' },
     { keyName: '↓', keyValue: 'ArrowDown' },
@@ -125,84 +125,105 @@ const keyList = [
 
 const Keyboard = () => {
 
+    // hold set of currently pressed codes for fast ops + stable snapshot state for render
+    const activeKeysRef = useRef(new Set());
     const [activeKey, setActiveKey] = useState([]);
-    const prevKeyRef = useRef('');
 
     useEffect(() => {
+        const opts = { passive: false }; // ensure preventDefault is allowed
+
+        const shouldPrevent = (e, code) => {
+            if (!code) return false;
+            // prevent common browser shortcuts: Ctrl/Meta combos, F1-F12, and navigation keys
+            if (e.ctrlKey || e.metaKey) return true;
+            if (/^F\d+$/.test(code)) return true;
+            const preventList = new Set([
+                'Space','Tab','PrintScreen','Backspace','Delete',
+                'Home','End','PageUp','PageDown',
+                'ArrowUp','ArrowDown','ArrowLeft','ArrowRight'
+            ]);
+            return preventList.has(code);
+        };
+
         const handleKeyDown = (event) => {
-            event.preventDefault();
-            if (event.code !== prevKeyRef.current) {
-                setActiveKey([...activeKey, event.code]);
-                prevKeyRef.current = event.code
+            const code = event.code;
+            if (!code) return;
+            if (shouldPrevent(event, code)) event.preventDefault();
+            if (!activeKeysRef.current.has(code)) {
+                activeKeysRef.current.add(code);
+                setActiveKey(Array.from(activeKeysRef.current));
             }
         };
 
         const handleKeyUp = (event) => {
-            prevKeyRef.current = ''
-            let newActiveKey = activeKey.filter(item => item !== event.code)
-            setActiveKey([...newActiveKey]);
+            const code = event.code;
+            if (!code) return;
+            if (shouldPrevent(event, code)) event.preventDefault();
+            if (activeKeysRef.current.has(code)) {
+                activeKeysRef.current.delete(code);
+                setActiveKey(Array.from(activeKeysRef.current));
+            }
         };
 
-        document.addEventListener("keydown", handleKeyDown);
-        document.addEventListener("keyup", handleKeyUp);
+        document.addEventListener('keydown', handleKeyDown, opts);
+        document.addEventListener('keyup', handleKeyUp, opts);
 
         return () => {
-            document.removeEventListener("keydown", handleKeyDown);
-            document.removeEventListener("keyup", handleKeyUp);
+            document.removeEventListener('keydown', handleKeyDown, opts);
+            document.removeEventListener('keyup', handleKeyUp, opts);
         };
-    }, [activeKey]);
-
+    }, []); // run once
 
     return (
         <div className="keyboard">
             <div className="left">
                 <div className="row rowst">
                     {
-                        keyListRow1.map((key, index) => (
-                            <Key activeKey={activeKey} key={index} item={key} />
+                        keyListRow1.map((key) => (
+                            <Key activeKey={activeKey} key={key.keyValue || key.keyName} item={key} />
                         ))
                     }
                 </div>
                 <div className="row">
                     {
-                        keyListRow2.map((key, index) => (
-                            <Key activeKey={activeKey} key={index} item={key} />
+                        keyListRow2.map((key) => (
+                            <Key activeKey={activeKey} key={key.keyValue || key.keyName} item={key} />
                         ))
                     }
                 </div>
                 <div className="row">
                     {
-                        keyListRow3.map((key, index) => (
-                            <Key activeKey={activeKey} key={index} item={key} />
+                        keyListRow3.map((key) => (
+                            <Key activeKey={activeKey} key={key.keyValue || key.keyName} item={key} />
                         ))
                     }
                 </div>
                 <div className="row">
                     {
-                        keyListRow4.map((key, index) => (
-                            <Key activeKey={activeKey} key={index} item={key} />
+                        keyListRow4.map((key) => (
+                            <Key activeKey={activeKey} key={key.keyValue || key.keyName} item={key} />
                         ))
                     }
                 </div>
                 <div className="row">
                     {
-                        keyListRow5.map((key, index) => (
-                            <Key activeKey={activeKey} key={index} item={key} />
+                        keyListRow5.map((key) => (
+                            <Key activeKey={activeKey} key={key.keyValue || key.keyName} item={key} />
                         ))
                     }
                 </div>
                 <div className="row">
                     {
-                        keyListRow6.map((key, index) => (
-                            <Key activeKey={activeKey} key={index} item={key} />
+                        keyListRow6.map((key) => (
+                            <Key activeKey={activeKey} key={key.keyValue || key.keyName} item={key} />
                         ))
                     }
                 </div>
             </div>
             <div className="right">
                 {
-                    keyList.map((key, index) => (
-                        <Key activeKey={activeKey} key={index} item={key} />
+                    keyList.map((key) => (
+                        <Key activeKey={activeKey} key={key.keyValue || key.keyName} item={key} />
                     ))
                 }
             </div>
