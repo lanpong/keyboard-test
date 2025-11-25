@@ -1,114 +1,85 @@
+.keyboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.keyboard-info {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    background: #2a2a2a;
+    padding: 15px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-item .label {
+    font-size: 0.8rem;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.info-item .value {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    font-family: monospace;
+}
+
+.reset-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.reset-btn:hover {
+    background-color: #c82333;
+}
+
+/* Restored Layout Styles */
 .keyboard {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: flex-start;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    padding: 16px;
+    /* Using dark theme background instead of original border */
+    background-color: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+}
+
+.right {
+    display: flex;
+    flex-direction: column;
+    /* Critical for numpad alignment */
+    margin-top: 91px;
 }
 
 .row {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
 }
 
-.row.rowst {
+.rowst {
+    /* Critical for F-keys gap */
     margin-bottom: 30px;
-}
-
-.right {
-    margin-top: 91px;
-}
-
-/* Scoped visual press feedback and sizing (less invasive) */
-.keyboard .key {
-    box-sizing: border-box; /* important for sizing */
-    /* use block-level flex to avoid inline layout shifts */
-    display: flex;
-    flex: 0 0 auto; /* keep intrinsic size, don't grow/shrink in row */
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    -webkit-user-select: none;
-    cursor: default;
-
-    /* tunable size variables */
-    --key-min-width: 36px;
-    --key-min-height: 36px;
-    --key-padding-x: 6px;
-    --key-padding-y: 6px;
-
-    min-width: var(--key-min-width);
-    min-height: var(--key-min-height);
-    padding: var(--key-padding-y) var(--key-padding-x);
-
-    transition: transform 90ms cubic-bezier(.2,.8,.2,1), box-shadow 120ms ease, background-color 120ms ease;
-    will-change: transform, box-shadow;
-    box-shadow: 0 4px 0 rgba(0,0,0,0.08), 0 8px 20px rgba(0,0,0,0.04);
-    /* remove hard-coded white background so original theme/color can show through */
-    background: var(--key-bg);
-    border-radius: 6px;
-}
-
-/* pressed state (keyboard or pointer) */
-.keyboard .key.active,
-.keyboard .key:active {
-    transform: translateY(3px) scale(0.995);
-    box-shadow: 0 2px 0 rgba(0,0,0,0.06) inset, 0 2px 6px rgba(0,0,0,0.06);
-    /* allow page/theme to control key background; use variable only if set */
-    background: var(--key-active-bg, rgba(230,240,255,0.9));
-}
-
-/* subtle highlight for hover/focus for discoverability */
-.keyboard .key:hover,
-.keyboard .key:focus {
-    transform: translateY(1px);
-    box-shadow: 0 6px 10px rgba(0,0,0,0.05);
-    outline: none;
-}
-
-/* label styling */
-.keyboard .key-label {
-    font-size: 12px;
-    line-height: 1;
-    /* prefer variable, fall back to inherited text color */
-    color: var(--key-text, inherit);
-}
-
-/* focus ring for keyboard navigation */
-.keyboard .key:focus-visible {
-    box-shadow: 0 0 0 3px rgba(66,133,244,0.18), 0 4px 0 rgba(0,0,0,0.06);
-}
-
-/* larger keys: use conservative defaults and allow override via variables */
-.keyboard .key.backspace { min-width: 72px; }
-.keyboard .key.enter { min-width: 72px; }
-.keyboard .key.space { min-width: 120px; border-radius: 8px; }
-
-/* Theme variables（可按需修改颜色） */
-:root {
-    --keyboard-key-bg: #2b2b2b;
-    --keyboard-key-text: #ffffff;
-    --keyboard-key-active-bg: #4a90e2;
-}
-
-/* scope variables to this keyboard to avoid global side-effects */
-.keyboard {
-    --key-bg: var(--keyboard-key-bg);
-    --key-text: var(--keyboard-key-text);
-    --key-active-bg: var(--keyboard-key-active-bg);
-}
-
-/* ensure keys use variables with sensible fallbacks */
-.keyboard .key {
-    background: var(--key-bg, transparent);
-    color: var(--key-text, inherit);
-}
-
-.keyboard .key.active,
-.keyboard .key:active {
-    background: var(--key-active-bg, rgba(74,144,226,0.95));
 }

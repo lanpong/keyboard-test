@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import './index.css';
 
-const Key = ({ item, activeKey = [] }) => {
+const Key = ({ item, activeKey = [], tested = false }) => {
     const [pointerActive, setPointerActive] = useState(false);
 
     const handlePointerDown = useCallback((e) => {
@@ -22,7 +22,7 @@ const Key = ({ item, activeKey = [] }) => {
             tabIndex={0}
             aria-pressed={isActive}
             aria-label={item.keyName}
-            className={`key ${item.keyClassName || ''} ${isActive ? 'active' : ''}`}
+            className={`key ${item.keyClassName || ''} ${isActive ? 'active' : ''} ${tested ? 'tested' : ''}`}
             onPointerDown={handlePointerDown}
             onPointerUp={handlePointerUp}
             onPointerLeave={handlePointerUp}

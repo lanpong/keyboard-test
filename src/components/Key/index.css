@@ -17,8 +17,34 @@
     font-size: 14px;
     line-height: 18px;
     color: #000000;
+    transition: all 0.1s ease;
 }
 
+.key:hover {
+    background-color: #ccc;
+}
+
+.key.active,
+.key:active {
+    background-color: #999;
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+/* Tested State */
+.key.tested {
+    background-color: #28a745;
+    color: white;
+    box-shadow: 0px 4px 4px #1e7e34;
+}
+
+.key.tested:active,
+.key.tested.active {
+    background-color: #007bff;
+    box-shadow: none;
+}
+
+/* Specific Key Sizes and Margins (Restored) */
 .backspace {
     width: 109px;
 }
@@ -106,12 +132,4 @@
 
 .numpadenter {
     height: 116px;
-}
-
-.key:hover {
-    background-color: #ccc;
-}
-
-.key.active {
-    background-color: #999;
 }
